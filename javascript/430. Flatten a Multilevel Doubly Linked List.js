@@ -14,27 +14,29 @@
  * @return {Node}
  */
 var flatten = function (head) {
-    if (!head) return head;
+    if (!head) return;
 
-    let dummyHead = new Node(-1, null, head, null);
+    let dummy = new Node(0, null, head, null);
+    let curr, prev = dummy;
 
-    flattenDFS(dummyHead, head);
+    let stack = [];
+    stack.push(head);
 
-    dummyHead.next.prev = null;
+    while (stack.length) {
+        let curr = stack.pop();
 
-    return dummyHead.next;
-};
+        prev.next = curr;
+        curr.prev = prev;
 
-var flattenDFS = function (prev, curr) {
-    if (!curr) return prev;
+        if (curr.next) stack.push(curr.next);
+        if (curr.child) {
+            stack.push(curr.child);
+            curr.child = null;
+        }
 
-    curr.prev = prev;
-    prev.next = curr;
+        prev = curr;
+    }
 
-    let next = curr.next;
-
-    let tail = flattenDFS(curr, curr.child);
-    curr.child = null;
-
-    return flattenDFS(tail, next);
+    dummy.next.prev = null;
+    return dummy.next;
 }

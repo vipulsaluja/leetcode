@@ -6,10 +6,17 @@
  * @return {number[]}
  */
 var killProcess = function (pid, ppid, kill) {
+    // Create process graph using pid and ppid.
+    // Graph is helpful in finding child processes.
     let adjList = createAdjList(pid, ppid);
 
+    // Initialize the queue with the process to be killed.
+    // Keep adding process children and then grandchildren and
+    // so on.
     let queue = [kill];
     let processesToKill = [];
+
+    // Using BFS to find child process.
     while (queue.length) {
         let length = queue.length;
 

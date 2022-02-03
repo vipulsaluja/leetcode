@@ -18,7 +18,9 @@ var diameterOfBinaryTree = function (root) {
         return 0;
     }
 
+    // Initialize global variable.
     diameter = 0;
+
     longestPath(root);
 
     return diameter;
@@ -32,7 +34,11 @@ var longestPath = function (node) {
     let leftPath = longestPath(node.left);
     let rightPath = longestPath(node.right);
 
+    // Longest diameter, may or may not include root, so take the max
+    // of all nodes.
     diameter = Math.max(diameter, leftPath + rightPath);
 
+    // For any node, longest path would be either left or right and
+    // plus for the node itself.
     return Math.max(leftPath, rightPath) + 1;
 }

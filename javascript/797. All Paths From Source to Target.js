@@ -3,23 +3,24 @@
  * @param {number[][]} graph
  * @return {number[][]}
  */
-let paths;
+let allPaths = [];
 var allPathsSourceTarget = function (graph) {
-    paths = [];
-
+    allPaths = [];
     dfs(graph, 0, [0]);
 
-    return paths;
+    return allPaths;
 };
 
-var dfs = function (graph, node, path) {
-    if (node === graph.length - 1) {
-        paths.push([...path]);
+var dfs = function (graph, currNode, path) {
+    if (currNode === graph.length - 1) {
+        // Create new array before pushing to all paths
+        // as backtrack algo is going to pop the elements 
+        // from original array.
+        allPaths.push([...path]);
         return;
     }
 
-    let destinations = graph[node];
-
+    let destinations = graph[currNode];
     destinations.forEach((destinationNode) => {
         path.push(destinationNode);
         dfs(graph, destinationNode, path);

@@ -1,3 +1,4 @@
+// https://leetcode.com/problems/implement-trie-prefix-tree/
 /**
  * Initialize your data structure here.
  */
@@ -5,6 +6,7 @@ let Node = function () {
     this.val = "";
     this.childMap = new Map();
 };
+
 var Trie = function () {
     this.root = new Node();
 };
@@ -14,13 +16,12 @@ var Trie = function () {
  * @param {string} word
  * @return {void}
  */
-Trie.prototype.insert = function (word, node) {
+Trie.prototype.insert = function (word, node = this.root) {
     if (!word.length) {
         node.isEnd = true;
         return;
     }
 
-    node = node || this.root;
     let child;
     if (node.childMap.has(word.charAt(0))) {
         child = node.childMap.get(word.charAt(0));
@@ -29,7 +30,7 @@ Trie.prototype.insert = function (word, node) {
         node.childMap.set(word.charAt(0), child);
     }
 
-    this.insert(word.substring(1, word.length), child);
+    this.insert(word.substring(1), child);
 
 };
 
@@ -38,18 +39,16 @@ Trie.prototype.insert = function (word, node) {
  * @param {string} word
  * @return {boolean}
  */
-Trie.prototype.search = function (word, node) {
-    if (word === "" && node.isEnd) {
-        return true;
+Trie.prototype.search = function (word, node = this.root) {
+    if (word === "") {
+        return node.isEnd || false;
     }
 
-    node = node || this.root;
-
-    if (node.childMap.has(word.charAt(0))) {
-        return this.search(word.substring(1, word.length), node.childMap.get(word.charAt(0)));
-    } else {
+    if (!node.childMap.has(word.charAt(0))) {
         return false;
     }
+
+    return this.search(word.substring(1), node.childMap.get(word.charAt(0)));
 };
 
 /**
@@ -57,18 +56,16 @@ Trie.prototype.search = function (word, node) {
  * @param {string} prefix
  * @return {boolean}
  */
-Trie.prototype.startsWith = function (prefix, node) {
+Trie.prototype.startsWith = function (prefix, node = this.root) {
     if (prefix === "") {
         return true;
     }
 
-    node = node || this.root;
-
     if (node.childMap.has(prefix.charAt(0))) {
-        return this.startsWith(prefix.substring(1, prefix.length), node.childMap.get(prefix.charAt(0)));
-    } else {
-        return false;
+        return this.startsWith(prefix.substring(1), node.childMap.get(prefix.charAt(0)));
     }
+
+    return false;
 };
 
 /**

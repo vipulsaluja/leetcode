@@ -4,24 +4,28 @@
  * @param {number} k
  * @return {string}
  */
-var removeDuplicates = function (sArr, k) {
-	let resultArr = [];
-
-	for (let i = 0; i < sArr.length; i++) {
-		if (resultArr.length) {
-			if (resultArr[resultArr.length - 1].char === sArr[i]) {
-				if (resultArr[resultArr.length - 1].count === k - 1) {
-					resultArr.pop();
-				} else {
-					resultArr[resultArr.length - 1].count++;
-				}
-			} else {
-				resultArr.push({ char: sArr[i], count: 1 });
-			}
-		} else {
-			resultArr.push({ char: sArr[i], count: 1 });
-		}
-	}
-
-	return resultArr.map((item) => { return item.char.repeat(item.count); }).join("");
+ var removeDuplicates = function(s, k) {
+    if(s.length < k) {
+        return s;
+    }
+    
+    let st = [{char: s[0], count: 1}];
+    for(let i=1; i<s.length; i++){
+        let top = st[st.length-1];
+        
+        if(top && top.char === s[i]){
+            top.count++;
+        } else {
+            st.push({char: s[i], count: 1});
+            top = st[st.length-1];
+        }
+        
+        if(top.count === k){
+            st.pop();
+        }
+    }
+    
+    return st.reduce((result, curr)=>{
+        return result+(curr.char.repeat(curr.count));
+    }, "");
 };

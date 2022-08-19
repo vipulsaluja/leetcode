@@ -3,35 +3,23 @@
  * @param {number[]} prices
  * @return {number}
  */
-
-
-/*
-Find the lowest price, and then following highest price.
-No point in buying a subsquent lowest price if there is no following highest price that has more profit.
-*/
-
-var maxProfit = function (prices) {
-	if (!prices || !prices.length) {
-		return 0;
-	}
-
-	let lowestPrice = prices[0];
-	let highestPrice = prices[0];
-	let maxProfit = 0;
-
-	for (let i = 0; i < prices.length; i++) {
-		if (lowestPrice > prices[i]) {
-			lowestPrice = prices[i];
-			highestPrice = 0;
-		}
-
-		if (highestPrice < prices[i]) {
-			highestPrice = prices[i];
-
-			// Keep max profit upto date as soon as "highest" price so far is found.
-			maxProfit = Math.max(highestPrice - lowestPrice, maxProfit);
-		}
-	}
-
-	return maxProfit;
+ var maxProfit = function(prices) {
+    if(prices.length < 2){
+        return 0;
+    }
+    
+    let minPrice = Number.MAX_VALUE;
+    let max = Number.MIN_VALUE;
+    
+    for(let i=0; i<prices.length; i++){
+        let price = prices[i];
+		// Either update the min price, or check for the profit.
+        if(price < minPrice) {
+            minPrice = price;
+        } else {
+            max = Math.max(max, price - minPrice);
+        }
+    }
+    
+    return max;
 };

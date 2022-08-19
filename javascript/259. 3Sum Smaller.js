@@ -7,8 +7,6 @@
 var threeSumSmaller = function (nums, target) {
     nums.sort((a, b) => a - b);
 
-
-
     return smallerSum(3, nums, 0, target);
 };
 

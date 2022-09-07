@@ -6,8 +6,8 @@
 var simplifyPath = function (path) {
     let pathSplits = path.split("/");
     let pathSt = [];
-    for (let i = 0; i < pathSplits.length; i++) {
-        switch (pathSplits[i]) {
+    for (let pathSplit of pathSplits) {
+        switch (pathSplit) {
             case "..":
                 if (pathSt.length) pathSt.pop();
                 break;
@@ -15,7 +15,7 @@ var simplifyPath = function (path) {
             case "":
                 break;
             default:
-                pathSt.push(pathSplits[i]);
+                pathSt.push(pathSplit);
         }
     }
 
